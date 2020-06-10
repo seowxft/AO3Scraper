@@ -7,6 +7,11 @@
 # Modify search to include a list of tags
 #      (e.g. you want all fics tagged either "romance" or "fluff")
 
+
+# Seow 8/6/2020 Edit: arg parser not working properly, url in command line gets cut prematurely
+# - hardcode url into the current script
+#https://archiveofourown.org/works?utf8=%E2%9C%93&work_search%5Bsort_column%5D=revised_at&work_search%5Bother_tag_names%5D=&work_search%5Bexcluded_tag_names%5D=&work_search%5Bcrossover%5D=&work_search%5Bcomplete%5D=&work_search%5Bwords_from%5D=&work_search%5Bwords_to%5D=&work_search%5Bdate_from%5D=&work_search%5Bdate_to%5D=&work_search%5Bquery%5D=&work_search%5Blanguage_id%5D=en&commit=Sort+and+Filter&tag_id=%E7%90%85%E7%90%8A%E6%A6%9C+%7C+Nirvana+in+Fire+%28TV%29
+
 from bs4 import BeautifulSoup
 import re
 import time
@@ -15,6 +20,7 @@ import csv
 import sys
 import datetime
 import argparse
+#import pdb
 
 page_empty = False
 base_url = ""
@@ -30,17 +36,17 @@ tags = []
 # that are written to the csv and then forgotten
 seen_ids = []
 
-# 
+#
 # Ask the user for:
 # a url of a works listed page
-# e.g. 
+# e.g.
 # https://archiveofourown.org/works?utf8=%E2%9C%93&work_search%5Bsort_column%5D=word_count&work_search%5Bother_tag_names%5D=&work_search%5Bquery%5D=&work_search%5Blanguage_id%5D=&work_search%5Bcomplete%5D=0&commit=Sort+and+Filter&tag_id=Harry+Potter+-+J*d*+K*d*+Rowling
 # https://archiveofourown.org/tags/Harry%20Potter%20-%20J*d*%20K*d*%20Rowling/works?commit=Sort+and+Filter&page=2&utf8=%E2%9C%93&work_search%5Bcomplete%5D=0&work_search%5Blanguage_id%5D=&work_search%5Bother_tag_names%5D=&work_search%5Bquery%5D=&work_search%5Bsort_column%5D=word_count
 # how many fics they want
 # what to call the output csv
-# 
+#
 # If you would like to add additional search terms (that is should contain at least one of, but not necessarily all of)
-# specify these in the tag csv, one per row. 
+# specify these in the tag csv, one per row.
 
 def get_args():
     global base_url
@@ -55,25 +61,28 @@ def get_args():
         'url', metavar='URL',
         help='a single URL pointing to an AO3 search page')
     parser.add_argument(
-        '--out_csv', default='work_ids',
+        '--out_csv', default='nif',
         help='csv output file name')
     parser.add_argument(
-        '--header', default='',
+        '--header', default='X',
         help='user http header')
     parser.add_argument(
-        '--num_to_retrieve', default='a', 
+        '--num_to_retrieve', default='a',
         help='how many fic ids you want')
     parser.add_argument(
-        '--multichapter_only', default='', 
+        '--multichapter_only', default='',
         help='only retrieve ids for multichapter fics')
     parser.add_argument(
         '--tag_csv', default='',
         help='provide an optional list of tags; the retrieved fics must have one or more such tags')
 
     args = parser.parse_args()
-    url = args.url
+#    url = args.url
+    url = 'https://archiveofourown.org/works?utf8=%E2%9C%93&work_search%5Bsort_column%5D=revised_at&work_search%5Bother_tag_names%5D=&work_search%5Bexcluded_tag_names%5D=&work_search%5Bcrossover%5D=&work_search%5Bcomplete%5D=&work_search%5Bwords_from%5D=&work_search%5Bwords_to%5D=&work_search%5Bdate_from%5D=&work_search%5Bdate_to%5D=&work_search%5Bquery%5D=&work_search%5Blanguage_id%5D=en&commit=Sort+and+Filter&tag_id=%E7%90%85%E7%90%8A%E6%A6%9C+%7C+Nirvana+in+Fire+%28TV%29'
     csv_name = str(args.out_csv)
-    
+    print(args)
+    print(url)
+
     # defaults to all
     if (str(args.num_to_retrieve) is 'a'):
         num_requested_fic = -1
@@ -95,15 +104,18 @@ def get_args():
 
     header_info = str(args.header)
 
+    print(header_info)
     return header_info
 
-# 
+#
 # navigate to a works listed page,
 # then extract all work ids
-# 
+#
 def get_ids(header_info=''):
     global page_empty
     headers = {'user-agent' : header_info}
+    print(headers)
+    print(url)
     req = requests.get(url, headers=headers)
     soup = BeautifulSoup(req.text, "lxml")
 
@@ -112,7 +124,7 @@ def get_ids(header_info=''):
     sys.stdout.flush()
     works = soup.find_all(class_="work blurb group")
 
-    # see if we've gone too far and run out of fic: 
+    # see if we've gone too far and run out of fic:
     if (len(works) is 0):
         page_empty = True
 
@@ -135,12 +147,13 @@ def get_ids(header_info=''):
                 ids.append(t)
                 seen_ids.append(t)
     return ids
+    print(ids)
 
-# 
+#
 # update the url to move to the next page
-# note that if you go too far, ao3 won't error, 
+# note that if you go too far, ao3 won't error,
 # but there will be no works listed
-# 
+#
 def update_url_to_next_page():
     global url
     key = "page="
@@ -173,6 +186,7 @@ def update_url_to_next_page():
 # modify the base_url to include the new tag, and save to global url
 def add_tag_to_url(tag):
     global url
+    print(url)
     key = "&work_search%5Bother_tag_names%5D="
     if (base_url.find(key)):
         start = base_url.find(key) + len(key)
@@ -182,12 +196,12 @@ def add_tag_to_url(tag):
         url = base_url + "&work_search%5Bother_tag_names%5D=" + tag
 
 
-# 
+#
 # after every page, write the gathered ids
 # to the csv, so a crash doesn't lose everything.
 # include the url where it was found,
 # so an interrupted search can be restarted
-# 
+#
 def write_ids_to_csv(ids):
     global num_recorded_fic
     with open(csv_name + ".csv", 'a') as csvfile:
@@ -196,15 +210,18 @@ def write_ids_to_csv(ids):
             if (not_finished()):
                 wr.writerow([id, url])
                 num_recorded_fic = num_recorded_fic + 1
+                print('number of recorded fic..')
+                print(id)
+                print(num_recorded_fic)
             else:
                 break
 
-# 
+#
 # if you want everything, you're not done
 # otherwise compare recorded against requested.
 # recorded doesn't update until it's actually written to the csv.
-# If you've gone too far and there are no more fic, end. 
-# 
+# If you've gone too far and there are no more fic, end.
+#
 def not_finished():
     if (page_empty):
         return False
@@ -217,10 +234,10 @@ def not_finished():
         else:
             return False
 
-# 
+#
 # include a text file with the starting url,
 # and the number of requested fics
-# 
+#
 def make_readme():
     with open(csv_name + "_readme.txt", "w") as text_file:
         text_file.write("url: " + url + "\n" + "num_requested_fic: " + str(num_requested_fic) + "\n" + "retreived on: " + str(datetime.datetime.now()))
@@ -238,11 +255,14 @@ def process_for_ids(header_info=''):
         # 5 second delay between requests as per AO3's terms of service
         time.sleep(5)
         ids = get_ids(header_info)
+        print(datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"))
         write_ids_to_csv(ids)
         update_url_to_next_page()
 
 def main():
+#    pdb.set_trace()
     header_info = get_args()
+    print(header_info)
     make_readme()
 
     print ("processing...\n")
@@ -251,6 +271,7 @@ def main():
         for t in tags:
             print ("Getting tag: ", t)
             reset()
+            print(t)
             add_tag_to_url(t)
             process_for_ids(header_info)
     else:
