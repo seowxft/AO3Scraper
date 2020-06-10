@@ -587,7 +587,13 @@ relationship[relationship %in% 'Lin Shu | Mei Changsu | Su Zhe/Xiao Jinghuan'] <
 ##
 relationship[relationship %in% 'Lin Shu | Mei Changsu | Su Zhe/Meng Zhi'] <- 'Lin Shu / Meng Zhi'
 ##
-relationship[relationship %in% 'Lin Shu | Mei Changsu | Su Zhe/Mu Nihuang'] <- 'Lin Shu/Mu Nihuang'
+relationship[relationship %in% 'Lin Shu | Mei Changsu | Su Zhe/Mu Nihuang'] <- 'Lin Shu / Mu Nihuang'
+
+relationship[relationship %in% 'Lin Chen/Xiao Jingyan'] <- 'Lin Chen / Xiao Jingyan'
+##
+relationship[relationship %in% 'Lie Zhanying/Xiao Jingyan'] <- 'Lie Zhanying / Xiao Jingyan'
+##
+relationship[relationship %in% 'Xiao Jingrui/Yan Yujin'] <- 'Xiao Jingrui / Yan Yujin'
 
 ################################ To shorten the x labels
 relationship[relationship %in% 'Lin Shu | Mei Changsu | Su Zhe & Xiao Jingyan'] <- 'Lin Shu & Xiao Jingyan'
