@@ -1,4 +1,6 @@
-## Statistics of Nirvana in Fire fanworks on AO3, data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper).
+## Statistics of Nirvana in Fire fanworks on AO3
+
+Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper).
 
 - Run `python ao3_work_ids.py <url>` to get csv file of AO3 fanwork ids.
 - Output csv is then used to scrape fanwork data with `python ao3_get_fanfics.py <csv>`.
@@ -11,7 +13,7 @@
 
 
 ## Word cloud generator
-- Output csv from `python ao3_get_fanfics.py` to run `csv_to_txts.py <csv>`.
+- Output csv from `ao3_get_fanfics.py` to run `python csv_to_txts.py <csv>`.
 - Load txt files to run `nifWordCloud.R` to plot word cloud.
 
 Top 300 most common words in Nirvana in Fire fanfic:
