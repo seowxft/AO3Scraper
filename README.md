@@ -2,9 +2,12 @@
 
 Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper).
 
+Read the [stats report here](https://seowxft.github.io/other/nirvana-in-fire-stats).
+
 - Run `python ao3_work_ids.py <url>` to get csv file of AO3 fanwork ids.
 - Output csv is then used to scrape fanwork data with `python ao3_get_fanfics.py <csv>`.
-- `nif_metadata.csv` contains all metadata from above scrape, excluded for fanwork body data
+
+`nif_metadata.csv` contains all metadata from the above scrape, excluded for fanwork body data
 - Load `nif_metadata.csv` to run `nifStatsAnalysis.R` for statistics analysis.
 
 <p align="center">
