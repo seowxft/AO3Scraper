@@ -18,7 +18,7 @@ Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/r
 
 Top 300 most common words in Nirvana in Fire fanfic:
 <p align="center">
-  <img src="https://github.com/seowxft/NiFAO3Scrape/blob/master/Figures/Rplot15.png" alt="WordCloud"/>
+  <img src="https://github.com/seowxft/NiFAO3Scrape/blob/master/Figures/Rplot15.jpg" alt="WordCloud"/>
 </p>
 
 ## License
