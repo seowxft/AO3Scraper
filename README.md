@@ -12,8 +12,9 @@
 
 ## Word cloud generator
 - Output csv from `python ao3_get_fanfics.py` to run `csv_to_txts.py <csv>`.
-- Load txt files to run `nifWordCloud.R` for statistics analysis.
+- Load txt files to run `nifWordCloud.R` to plot word cloud.
 
+Top 300 most common words in Nirvana in Fire fanfic:
 <p align="center">
   <img src="https://github.com/seowxft/NiFAO3Scrape/blob/master/Figures/Rplot15.png" alt="WordCloud"/>
 </p>
