@@ -1,4 +1,4 @@
-## Statistics of Nirvana in Fire fanworks on AO3
+## Statistics for Nirvana in Fire fanworks on AO3
 
 Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper).
 
