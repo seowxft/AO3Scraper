@@ -8,7 +8,7 @@ Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/r
 - Load `nif_metadata.csv` to run `nifStatsAnalysis.R` for statistics analysis.
 
 <p align="center">
-  <img src="https://github.com/seowxft/NiFAO3Scrape/blob/master/Figures/Rplot02.png" alt="WordCloud"/>
+  <img src="https://github.com/seowxft/NiFAO3Scrape/blob/master/Figures/Rplot01.png" alt="WordCloud"/>
 </p>
 
 
