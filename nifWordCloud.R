@@ -40,7 +40,7 @@ excludart<-c('24047197', '23237959', '23237806', '22988230', '22972963', '226997
              '12461193')
 
 # vid
-excludvid<-c('23236627', '17010738', '21754528', '17010738', '14136024', '16451231', '23809921', '16975728')
+excludvid<-c('23236627', '17010738', '21754528', '14136024', '16451231', '23809921', '16975728')
 
 # Exclude all to leave only english fic
 exclud<-c(exclud1,exclud2,exclud3,exclud4,excludpod,excludart,excludvid)

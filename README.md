@@ -13,6 +13,7 @@ Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/r
 
 
 ## Word cloud generator
+txt files of fanwork body data are not included in the current dataset as it is basically fic. You may scrape them on your own from the source:
 - Output csv from `ao3_get_fanfics.py` to run `python csv_to_txts.py <csv>`.
 - Load txt files to run `nifWordCloud.R` to plot word cloud.
 
