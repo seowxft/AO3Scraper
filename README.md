@@ -5,12 +5,17 @@
 - `nif_metadata.csv` contains all metadata from above scrape, excluded for fanwork body data
 - Load `nif_metadata.csv` to run `nifStatsAnalysis.R` for statistics analysis.
 
+<p align="center">
+  <img src="https://github.com/seowxft/NiFAO3Scrape/blob/master/Figures/Rplot02.png" alt="WordCloud"/>
+</p>
+
+
 ## Word cloud generator
 - Output csv from `python ao3_get_fanfics.py` to run `csv_to_txts.py <csv>`.
 - Load txt files to run `nifWordCloud.R` for statistics analysis.
 
 <p align="center">
-  <img src="https://github.com/seowxft/NiFAO3Scrape/Figures/Rplot15.png" alt="WordCloud"/>
+  <img src="https://github.com/seowxft/NiFAO3Scrape/blob/master/Figures/Rplot15.png" alt="WordCloud"/>
 </p>
 
 ## License
