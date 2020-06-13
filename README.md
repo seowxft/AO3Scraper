@@ -8,7 +8,7 @@ Read the full [stats report here](https://seowxft.github.io/other/nirvana-in-fir
 - Output csv is then used to scrape fanwork data with `python ao3_get_fanfics.py <csv>`.
 - `nif_metadata.csv` contains all metadata from the above scrape, excluded for fanwork body data.
 
-For author data (which is not included in [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper), [alexwlchan's ao3 API](https://github.com/alexwlchan/ao3) was used.
+For author data (which is not included in [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper), [alexwlchan's ao3 API](https://github.com/alexwlchan/ao3)) was used.
 - Run `ao3_get_author.py` with ids from `nif_metadata.csv` to get `nif_metaData_author.csv`
 
 Load `nif_metaData.csv` and `nif_metaData_author.csv` in `nifStatsAnalysis.R` for statistics analysis.
