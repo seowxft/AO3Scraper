@@ -18,17 +18,17 @@ library(ggplot2)
 
 # load data
 ##### -------------------------------------------------------------> #####
-path = 'C:/Users/dream/Downloads/AO3Scraper-master/'
+path = 'C:/Users/dream/Documents/GitHub/NiFAO3Scrape'
 setwd(path)
 metaData.e<-read.csv('nif_metaData.csv')
-
+authorData<-read.csv('nif_metaData_author.csv')
 
 #####
 
 # manual exclusions
 ##### -------------------------------------------------------------> #####
 # Chinese fanwork mislabelled as English
-exclud1 <- c('9377837', '9348611', '9250082', '7298401', '11375991' ,'11375886' ,'11375856' ,'11375799','12710559','11510832','23839219')
+exclud1 <- c('9377837', '9348611', '9250082', '7298401', '11375991' ,'11375886' ,'11375856' ,'11375799','12710559','11510832','23839219','11483703')
 # Unrelated drabble collection
 exclud2 <- c('602170','13595709','18125552')
 # MDZS fanworks with no NIF connection
@@ -38,32 +38,6 @@ exclud4 <- c('11366736')
 
 exclud<-c(exclud1,exclud2,exclud3,exclud4)
 metaData<-metaData.e[!metaData.e$work_id %in% exclud,]
-
-#####
-
-# Fic publish by year
-##### -------------------------------------------------------------> #####
-metaData$timeValue <- as.numeric( gsub("-", "", as.character(metaData$published)) )
-metaData$year<-as.numeric(substr(metaData$timeValue, 1, 4))
-
-year.freq<-as.data.frame(table(metaData$year))
-colnames(year.freq)<-c("Year", "Freq")
-year.freq$Day<-factor(year.freq$Year, ordered = TRUE, levels=year.freq$Year)
-
-year.freq.p<- year.freq  %>%
-  ggplot( aes(x=Year, y=Freq, label = Freq)) +
-  geom_bar(stat="identity", fill="#008080", alpha=.6, width=.4) +
-  geom_text(color="black", size=5, position=position_dodge(width=0.9), vjust=-0.25)+ #coord_flip() +
-  labs(subtitle="Fanworks Published Date by Year", x= 'Year', y= 'No. of Fanworks') +
-  theme_classic() +   theme(text = element_text(size=15)) +
-  theme(panel.border = element_blank(), panel.grid.major.x = element_blank(), 
-        panel.grid.major.y = element_line( size=.1, color="grey" ) ,
-        axis.line = element_line(colour = "black",size=1),axis.ticks = element_line(colour = "black",size=1), 
-        axis.title = element_text(size=15),
-        axis.text.x  = element_text(colour = "black",size=15),
-        axis.text.y  = element_text(colour = "black",size=15))
-year.freq.p
-
 
 #####
 
@@ -99,6 +73,35 @@ with(date.freq, date.freq[order(date.freq$Freq),])
 
 metaData[metaData$timeValue==min(metaData$timeValue),]
 
+
+# Fic publish by year
+##### -------------------------------------------------------------> #####
+metaData$timeValue <- as.numeric( gsub("-", "", as.character(metaData$published)) )
+metaData$year<-as.numeric(substr(metaData$timeValue, 1, 4))
+
+year.freq<-as.data.frame(table(metaData$year))
+colnames(year.freq)<-c("Year", "Freq")
+year.freq$Day<-factor(year.freq$Year, ordered = TRUE, levels=year.freq$Year)
+
+year.freq.p<- year.freq  %>%
+  ggplot( aes(x=Year, y=Freq, label = Freq)) +
+  geom_bar(stat="identity", fill="#008080", alpha=.6, width=.4) +
+  geom_text(color="black", size=5, position=position_dodge(width=0.9), vjust=-0.25)+ #coord_flip() +
+  labs(subtitle="Fanworks Published Date by Year", x= 'Year', y= 'No. of Fanworks') +
+  theme_classic() +   theme(text = element_text(size=15)) +
+  theme(panel.border = element_blank(), panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_line( size=.1, color="grey" ) ,
+        axis.line = element_line(colour = "black",size=1),axis.ticks = element_line(colour = "black",size=1), 
+        axis.title = element_text(size=15),
+        axis.text.x  = element_text(colour = "black",size=15),
+        axis.text.y  = element_text(colour = "black",size=15))
+year.freq.p
+
+
+#####
+
+
+
 #####
 # Fic status proportion
 ##### -------------------------------------------------------------> #####
@@ -121,6 +124,64 @@ status.freq.p<-ggplot(status.freq, aes(x="", y=Freq, fill=Status ))+
             position = position_stack(vjust = 0.5), size=5)+
   labs(subtitle="Status Distribution") +  theme(text = element_text(size=15))
 status.freq.p
+
+
+
+
+##### 
+# Category Histogram
+##### -------------------------------------------------------------> #####
+category<-strsplit(as.character(metaData$category), ", ")
+category<-unlist(category, recursive = FALSE)
+category.freq<-as.data.frame(table(category))
+
+colnames(category.freq)<-c("Category","Freq")
+category.freq$Percent<- category.freq$Freq/sum(category.freq$Freq)*100
+category.freq$Percent<-as.numeric(formatC(category.freq$Percent, digits = 2, format = "f"))
+category.freq<-category.freq[  with(category.freq, order(-category.freq$Percent)), ]
+category.freq$Category<-factor(category.freq$Category, ordered = TRUE, levels=category.freq$Category)
+
+category.freq.p<- category.freq  %>%
+  ggplot( aes(x=Category, y=Percent, label = Percent)) +
+  geom_bar(stat="identity", fill="#008080", alpha=.6, width=.4) +
+  geom_text(color="black", size=5, position=position_dodge(width=0.9), vjust=-0.25) +
+  labs(subtitle="Category Distribution", x= 'Category', y= 'Percentage of Fanworks (%)') +
+  theme_classic() +   theme(text = element_text(size=15)) +
+  theme(panel.border = element_blank(), panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_line( size=.1, color="grey" ) ,
+        axis.line = element_line(colour = "black",size=1),axis.ticks = element_line(colour = "black",size=1), 
+        axis.title = element_text(size=15),
+        axis.text.x  = element_text(colour = "black",size=15,angle = 60,vjust = 1, hjust = 1),
+        axis.text.y  = element_text(colour = "black",size=15))
+category.freq.p
+
+
+
+##### 
+# Rating Spread
+##### -------------------------------------------------------------> #####
+rating.freq<-as.data.frame(table(metaData$rating))
+colnames(rating.freq)<-c("Rating","Freq")
+rating.freq$Percent<- rating.freq$Freq/sum(rating.freq$Freq)*100
+rating.freq$Percent<-as.numeric(formatC(rating.freq$Percent, digits = 2, format = "f"))
+rating.freq<-rating.freq[  with(rating.freq, order(-rating.freq$Percent)), ]
+rating.freq$Rating<-factor(rating.freq$Rating, ordered = TRUE, levels=rating.freq$Rating)
+
+rating.freq.p<- rating.freq  %>%
+  ggplot( aes(x=Rating, y=Percent, label = Percent)) +
+  geom_bar(stat="identity", fill="#008080", alpha=.6, width=.4) +
+  geom_text(color="black", size=5, position=position_dodge(width=0.9), vjust=-0.25) +
+  labs(subtitle="Rating Distribution", x= 'Rating', y= 'Percentage of Fanworks (%)') +
+  theme_classic() +   theme(text = element_text(size=15)) +
+  theme(panel.border = element_blank(), panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_line( size=.1, color="grey" ) ,
+        axis.line = element_line(colour = "black",size=1),axis.ticks = element_line(colour = "black",size=1), 
+        axis.title = element_text(size=15),
+        axis.text.x  = element_text(colour = "black",size=15,angle = 60,vjust = 1, hjust = 1),
+        axis.text.y  = element_text(colour = "black",size=15))
+rating.freq.p
+
+
 
 
 #####
@@ -187,11 +248,11 @@ word.freq.p
 
 
 nrow(metaData)
-sum(wordNums)
+sum(wordNums)-20-49-7
 
 # Most words fic
 metaData.exclud[metaData.exclud$words == max(metaData.exclud$words),]
-words.100[words.100$words == min(words.100$words),]
+nrow(words.100[words.100$words == min(words.100$words),])
 
 head(metaData.exclud[order(-metaData.exclud$words),])
 
@@ -381,60 +442,6 @@ sum(hitsNums)
 metaData.hits[metaData.hits$hits == max(metaData.hits$hits),]
 head(metaData.hits[order(-metaData.hits$hits),])
 
-
-
-##### 
-# Category Histogram
-##### -------------------------------------------------------------> #####
-category<-strsplit(as.character(metaData$category), ", ")
-category<-unlist(category, recursive = FALSE)
-category.freq<-as.data.frame(table(category))
-
-colnames(category.freq)<-c("Category","Freq")
-category.freq$Percent<- category.freq$Freq/sum(category.freq$Freq)*100
-category.freq$Percent<-as.numeric(formatC(category.freq$Percent, digits = 2, format = "f"))
-category.freq<-category.freq[  with(category.freq, order(-category.freq$Percent)), ]
-category.freq$Category<-factor(category.freq$Category, ordered = TRUE, levels=category.freq$Category)
-
-category.freq.p<- category.freq  %>%
-  ggplot( aes(x=Category, y=Percent, label = Percent)) +
-  geom_bar(stat="identity", fill="#008080", alpha=.6, width=.4) +
-  geom_text(color="black", size=5, position=position_dodge(width=0.9), vjust=-0.25) +
-  labs(subtitle="Category Distribution", x= 'Category', y= 'Percentage of Fanworks (%)') +
-  theme_classic() +   theme(text = element_text(size=15)) +
-  theme(panel.border = element_blank(), panel.grid.major.x = element_blank(), 
-        panel.grid.major.y = element_line( size=.1, color="grey" ) ,
-        axis.line = element_line(colour = "black",size=1),axis.ticks = element_line(colour = "black",size=1), 
-        axis.title = element_text(size=15),
-        axis.text.x  = element_text(colour = "black",size=15,angle = 60,vjust = 1, hjust = 1),
-        axis.text.y  = element_text(colour = "black",size=15))
-category.freq.p
-
-
-
-##### 
-# Rating Spread
-##### -------------------------------------------------------------> #####
-rating.freq<-as.data.frame(table(metaData$rating))
-colnames(rating.freq)<-c("Rating","Freq")
-rating.freq$Percent<- rating.freq$Freq/sum(rating.freq$Freq)*100
-rating.freq$Percent<-as.numeric(formatC(rating.freq$Percent, digits = 2, format = "f"))
-rating.freq<-rating.freq[  with(rating.freq, order(-rating.freq$Percent)), ]
-rating.freq$Rating<-factor(rating.freq$Rating, ordered = TRUE, levels=rating.freq$Rating)
-
-rating.freq.p<- rating.freq  %>%
-  ggplot( aes(x=Rating, y=Percent, label = Percent)) +
-  geom_bar(stat="identity", fill="#008080", alpha=.6, width=.4) +
-  geom_text(color="black", size=5, position=position_dodge(width=0.9), vjust=-0.25) +
-  labs(subtitle="Rating Distribution", x= 'Rating', y= 'Percentage of Fanworks (%)') +
-  theme_classic() +   theme(text = element_text(size=15)) +
-  theme(panel.border = element_blank(), panel.grid.major.x = element_blank(), 
-        panel.grid.major.y = element_line( size=.1, color="grey" ) ,
-        axis.line = element_line(colour = "black",size=1),axis.ticks = element_line(colour = "black",size=1), 
-        axis.title = element_text(size=15),
-        axis.text.x  = element_text(colour = "black",size=15,angle = 60,vjust = 1, hjust = 1),
-        axis.text.y  = element_text(colour = "black",size=15))
-rating.freq.p
 
 
 
@@ -898,6 +905,21 @@ tags.freq.p<- tags.10  %>%
         axis.text.y  = element_text(colour = "black",size=15))
 #  scale_x_discrete(guide = guide_axis(n.dodge=10))
 tags.freq.p
+
+#####
+
+
+
+# merge author data
+##### -------------------------------------------------------------> #####
+
+metaData.a<- merge(authorData, metaData, by = "work_id", all=TRUE)
+metaData.a<-metaData.a[order(as.character(metaData.a$author)),]
+
+author.freq<-as.data.frame(table(metaData.a$author))
+colnames(author.freq)<-c("author", "Freq")
+author.freq<-author.freq[with(author.freq, order(-author.freq$Freq)),  ]
+author.freq[1:10,]
 
 #####
 
