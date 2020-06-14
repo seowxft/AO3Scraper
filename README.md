@@ -1,6 +1,6 @@
 ## Statistics for Nirvana in Fire fanworks on AO3
 
-Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper).
+Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper) and [alexwlchan's ao3 API](https://github.com/alexwlchan/ao3).
 
 Read the full [stats report here](https://seowxft.github.io/other/nirvana-in-fire-stats).
 
@@ -9,7 +9,7 @@ Read the full [stats report here](https://seowxft.github.io/other/nirvana-in-fir
 - `nif_metadata.csv` contains all metadata from the above scrape, excluded for fanwork body data.
 
 For author data (which is not included in [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper)), [alexwlchan's ao3 API](https://github.com/alexwlchan/ao3) was used.
-- Run `ao3_get_author.py` with ids from `nif_metadata.csv` to get `nif_metaData_author.csv`
+- Run `python ao3_get_author.py` with ids from `nif_metadata.csv` to get `nif_metaData_author.csv`
 
 Load `nif_metaData.csv` and `nif_metaData_author.csv` in `nifStatsAnalysis.R` for statistics analysis.
 
@@ -29,4 +29,4 @@ Top 300 most common words in Nirvana in Fire fanfic:
 </p>
 
 ## License
-[radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper) and [alexwlchan's ao3 API](https://github.com/alexwlchan/ao3) are licensed under the Creative Commons Attribution-Non Commercial 4.0 International (CC BY-NC 4.0). Feel free to use the other scripts and adapt it however you want, but never for commerical use.
+[radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper) is licensed under the Creative Commons Attribution-Non Commercial 4.0 International (CC BY-NC 4.0).[alexwlchan's ao3 API](https://github.com/alexwlchan/ao3) is licensed under the MIT license. Feel free to use the other scripts and adapt it however you want, but never for commerical use.
