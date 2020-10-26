@@ -30,4 +30,4 @@ Top 300 most common words in Nirvana in Fire fanfic:
 </p>
 
 ## License
-[radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper) is licensed under the Creative Commons Attribution-Non Commercial 4.0 International (CC BY-NC 4.0).[alexwlchan's ao3 API](https://github.com/alexwlchan/ao3) is licensed under the MIT license. Feel free to use the other scripts and adapt it however you want, but never for commerical use.
+[radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper) is licensed under the Creative Commons Attribution-Non Commercial 4.0 International (CC BY-NC 4.0).[alexwlchan's ao3 API](https://github.com/alexwlchan/ao3) is licensed under the MIT license. Feel free to use the other scripts and adapt it however you want, but never for commercial use.
