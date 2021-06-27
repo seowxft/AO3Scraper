@@ -2,7 +2,7 @@
 
 Data scraped on 8 June 2020 with [radiolarian's AO3Scraper](https://github.com/radiolarian/AO3Scraper) and [alexwlchan's ao3 API](https://github.com/alexwlchan/ao3).
 
-Read the full [stats report here](https://seowxft.github.io/other/nirvana-in-fire-stats).
+Read the full [stats report here](https://github.com/seowxft/nif-ao3-scrape/blob/master/2018-Nirvana-in-Fire-Statistics-Report.pdf).
 
 - Run `python ao3_work_ids.py` to get csv file of NiF AO3 English fanwork ids.
 - Output csv is then used to scrape fanwork data with `python ao3_get_fanfics.py <csv>`.
